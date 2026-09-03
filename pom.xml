@@ -103,6 +103,12 @@
             <scope>test</scope>
         </dependency>
 
+        <!--        для работы jakarta.validation.constraints.Min;-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
 	</dependencies>
 
 

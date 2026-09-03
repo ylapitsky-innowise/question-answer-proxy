@@ -1,3 +1,56 @@
+# src/main/resources/application.yaml
+
+# ============================================
+# Основные настройки приложения
+# ============================================
 spring:
   application:
     name: question-answer-proxy
+
+server:
+  port: ${PORT:8080}
+
+
+# ============================================
+# Google Sheets Configuration
+# ============================================
+  google:
+    sheets:
+      application-name: "Question Proxy"
+      spreadsheet-id: ${SPREADSHEET_ID:1VAvwTtTPFTqLSIhxgyK-s3Hz6ZHt73JIJJTC3xTWgsI}
+      range: ${RANGE:question_answer}
+      metadata-range: ${METADATA_RANGE:metadata!A2:B4}
+    credentials:
+      json: ${GOOGLE_CREDENTIALS}
+
+
+# ============================================
+# Cache Configuration
+# ============================================
+cache:
+  version-check-interval: 60000  # 1 минута в миллисекундах
+  ttl-hours: 24                   # Время жизни кэша в часах
+
+
+# ============================================
+# Logging
+# ============================================
+logging:
+  level:
+    com.innowise.qaproxy: DEBUG
+    com.google.api: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} %-5level [%thread] %logger{36} - %msg%n"
+
+
+# ============================================
+# Management / Actuator (опционально)
+# ============================================
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
