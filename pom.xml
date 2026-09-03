@@ -19,6 +19,7 @@
         <java.version>17</java.version>
         <google-sheets.version>v4-rev20230815-2.0.0</google-sheets.version>
         <google-auth.version>1.23.0</google-auth.version>
+        <lombok.version>1.18.30</lombok.version>
     </properties>
 
 	<url/>
