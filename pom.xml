@@ -110,6 +110,13 @@
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
 
+        <!--        добавим переменные окружения в IntelliJ IDEA для Через файл .env (удобнее) -->
+        <dependency>
+            <groupId>me.paulschwarz</groupId>
+            <artifactId>spring-dotenv</artifactId>
+            <version>4.0.0</version>
+        </dependency>
+
 	</dependencies>
 
 
