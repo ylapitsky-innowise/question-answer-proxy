@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: question-answer-proxy
+    env: java
+    buildCommand: ./mvnw clean install -DskipTests
+    startCommand: java -jar target/question-answer-proxy-1.0.0.jar
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: production
