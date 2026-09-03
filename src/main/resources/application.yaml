@@ -14,14 +14,14 @@ server:
 # ============================================
 # Google Sheets Configuration
 # ============================================
-  google:
-    sheets:
-      application-name: "Question Proxy"
-      spreadsheet-id: ${SPREADSHEET_ID:1VAvwTtTPFTqLSIhxgyK-s3Hz6ZHt73JIJJTC3xTWgsI}
-      range: ${RANGE:question_answer}
-      metadata-range: ${METADATA_RANGE:metadata!A2:B4}
-    credentials:
-      json: ${GOOGLE_CREDENTIALS}
+google:
+  sheets:
+    application-name: "Question Proxy"
+    spreadsheet-id: ${SPREADSHEET_ID:1VAvwTtTPFTqLSIhxgyK-s3Hz6ZHt73JIJJTC3xTWgsI}
+    range: ${RANGE:question_answer}
+    metadata-range: ${METADATA_RANGE:metadata!A2:B4}
+  credentials:
+    json: ${GOOGLE_CREDENTIALS}
 
 
 # ============================================
