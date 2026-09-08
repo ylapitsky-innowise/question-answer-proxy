@@ -28,3 +28,8 @@ service-account-key.json
 application-local.*
 application-dev.*
 application-prod.*
+
+# Внешние конфиги
+config/sources.yaml
+config/*.yaml
+!config/sources.example.yaml

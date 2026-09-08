@@ -1,0 +1,20 @@
+# sources.example.yaml
+# Скопируйте этот файл в корневую папку config/ и переименуйте в sources.yaml
+
+spring:
+  spreadsheet-id: "${SPRING_SHEET_ID}"    # можно через переменные
+  range: "spring_questions"
+  name: "Spring Framework"
+  description: "Все вопросы по Spring Core, Boot, Security"
+
+sql:
+  spreadsheet-id: "${SQL_SHEET_ID}"
+  range: "sql_questions"
+  name: "Базы данных SQL"
+  description: "Вопросы по SQL, индексам, транзакциям"
+
+kafka:
+  spreadsheet-id: "${KAFKA_SHEET_ID}"
+  range: "kafka_questions"
+  name: "Apache Kafka"
+  description: "Вопросы по Kafka, компонентам"
