@@ -17,6 +17,7 @@
 
     <properties>
         <java.version>17</java.version>
+        <spring-data-commons.version>3.2.3</spring-data-commons.version>
         <google-sheets.version>v4-rev20230815-2.0.0</google-sheets.version>
         <google-auth.version>1.23.0</google-auth.version>
         <lombok.version>1.18.30</lombok.version>
@@ -62,31 +63,16 @@
 <!--			<scope>test</scope>-->
 <!--		</dependency>-->
 
-        <!-- Spring Boot -->
+
+
+        <!-- ============================================================ -->
+        <!--                   CORE SPRING BOOT                             -->
+        <!-- ============================================================ -->
+
+        <!-- Web: REST, Tomcat, Jackson, Validation -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-        <!-- Google Sheets API -->
-        <dependency>
-            <groupId>com.google.apis</groupId>
-            <artifactId>google-api-services-sheets</artifactId>
-            <version>${google-sheets.version}</version>
-        </dependency>
-
-        <!-- Google Auth -->
-        <dependency>
-            <groupId>com.google.auth</groupId>
-            <artifactId>google-auth-library-oauth2-http</artifactId>
-            <version>${google-auth.version}</version>
-        </dependency>
-
-        <!-- Lombok -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
         </dependency>
 
         <!-- DevTools -->
@@ -97,6 +83,63 @@
             <optional>true</optional>
         </dependency>
 
+        <!-- для работы jakarta.validation.constraints.Min;-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
+        <!-- ============================================================ -->
+        <!--                   SPRING DATA                                -->
+        <!-- ============================================================ -->
+
+        <!-- Pageable, @PageableDefault, Slice, Sort -->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-commons</artifactId>
+            <version>${spring-data-commons.version}</version>
+        </dependency>
+
+        <!-- ============================================================ -->
+        <!--                   GOOGLE API                                  -->
+        <!-- ============================================================ -->
+
+        <!-- Google Sheets API v4 -->
+        <dependency>
+            <groupId>com.google.apis</groupId>
+            <artifactId>google-api-services-sheets</artifactId>
+            <version>${google-sheets.version}</version>
+        </dependency>
+
+        <!-- Google OAuth2 HTTP Client -->
+        <dependency>
+            <groupId>com.google.auth</groupId>
+            <artifactId>google-auth-library-oauth2-http</artifactId>
+            <version>${google-auth.version}</version>
+        </dependency>
+
+        <!-- ========================================================== -->
+        <!--                   UTILITIES                                -->
+        <!-- ========================================================== -->
+
+        <!-- Lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- добавим переменные окружения в IntelliJ IDEA для Через файл .env (удобнее) -->
+        <dependency>
+            <groupId>me.paulschwarz</groupId>
+            <artifactId>spring-dotenv</artifactId>
+            <version>4.0.0</version>
+        </dependency>
+
+        <!-- ========================================================== -->
+        <!--                   TESTING                                  -->
+        <!-- ========================================================== -->
+
         <!-- Testing -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -104,24 +147,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!--        для работы jakarta.validation.constraints.Min;-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-validation</artifactId>
-        </dependency>
-
-        <!--        добавим переменные окружения в IntelliJ IDEA для Через файл .env (удобнее) -->
-        <dependency>
-            <groupId>me.paulschwarz</groupId>
-            <artifactId>spring-dotenv</artifactId>
-            <version>4.0.0</version>
-        </dependency>
-
 	</dependencies>
-
-
-
-
 
 	<build>
 		<plugins>

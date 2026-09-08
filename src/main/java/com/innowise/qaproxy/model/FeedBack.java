@@ -35,5 +35,6 @@ public class FeedBack extends QuestionAnswer {
     private String interviewer; // Интервьюер, Кто был интервьюером             - НЕ ОБЯЗАТЕЛЬНЫЙ
 
     @Size(max = 500, message = "Текстовый комментарий не должен превышать 500 символов")
-    private String feedback; // Текстовый комментарий
+    private String feedback; // Текстовый комментарий,
+
 }

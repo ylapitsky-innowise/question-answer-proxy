@@ -6,12 +6,15 @@ import com.innowise.qaproxy.model.QuestionAnswer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import static com.innowise.qaproxy.constant.MessageConstants.NOT_IMPLEMENTED_MESSAGE;
 
 @Slf4j
 @Service
@@ -23,11 +26,12 @@ public class GoogleSheetsServiceImpl implements GoogleSheetsService {
     @Value("${google.sheets.spreadsheet-id}")
     private String spreadsheetId;
 
+    // Имя диапазона данных
     @Value("${google.sheets.range:question_answer}")
     private String range;
 
     @Override
-    public List<QuestionAnswer> readQuestionsFromSheet() {
+    public List<QuestionAnswer> readQuestionsFromSheet(String listName, Pageable pageable) {
         try {
             log.info("Reading data from spreadsheet: {}", spreadsheetId);
 
@@ -62,8 +66,19 @@ public class GoogleSheetsServiceImpl implements GoogleSheetsService {
         }
     }
 
+    // РЕАЛИЗОВАТЬ!
     @Override
-    public int getRowCount() {
+    public QuestionAnswer readQuestionFromSheet(String listName, String questionId) {
+        log.info("readQuestionFromSheet(listName = '{}', questionId = '{}') // {}", listName, questionId, NOT_IMPLEMENTED_MESSAGE);
+        return QuestionAnswer.builder()
+                .topic(NOT_IMPLEMENTED_MESSAGE)
+                .question(NOT_IMPLEMENTED_MESSAGE)
+                .answer(NOT_IMPLEMENTED_MESSAGE)
+                .build();
+    }
+
+    @Override
+    public int getRowCount(String listName) {
         try {
             ValueRange response = sheetsService.spreadsheets().values()
                     .get(spreadsheetId, range)
@@ -78,12 +93,28 @@ public class GoogleSheetsServiceImpl implements GoogleSheetsService {
         }
     }
 
+    // РЕАЛИЗОВАТЬ
+    @Override
+    public String health(String listName) {
+        log.info("health(listName = '{}') // {}", listName, NOT_IMPLEMENTED_MESSAGE);
+        return "OK, но " + NOT_IMPLEMENTED_MESSAGE;
+    }
+
+    // РЕАЛИЗОВАТЬ
+    @Override
+    public List<String> getAvailableLists() {
+        log.info("getAvailableLists() // {}", NOT_IMPLEMENTED_MESSAGE);
+        return List.of(NOT_IMPLEMENTED_MESSAGE);
+    }
+
     private QuestionAnswer mapRowToQuestion(List<Object> row) {
         try {
             return QuestionAnswer.builder()
-                    .questionId(getStringValue(row, 0))
-                    .question(getStringValue(row, 1))
-                    .answer(getStringValue(row, 2))
+                    .questionId(getStringValue(row, 0)) // ← ID вопроса (обязательное поле)
+                    .question(getStringValue(row, 1)) // ← Сам вопрос (обязательное поле)
+                    .answer(getStringValue(row, 2)) // ← Вариант ответа (обязательное поле)
+                    .topic(getStringValue(row, 3)) // ← Тема вопроса
+                    .difficulty(getStringValue(row, 4)) // ← Сложность вопроса
                     .build();
         } catch (Exception e) {
             log.warn("Error parsing row: {}", e.getMessage());
