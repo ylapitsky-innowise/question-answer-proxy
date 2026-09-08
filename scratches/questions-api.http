@@ -5,103 +5,159 @@
 # ============================================================
 # ЛОКАЛЬНЫЙ ЗАПУСК (для разработки и тестирования)
 # ============================================================
-# @host = http://localhost:8080
+ @host = http://localhost:8080
 
 # ============================================================
 # РЕЛИЗНАЯ ВЕРСИЯ (задеплоенная на Render)
 # ============================================================
-@host = https://question-answer-proxy.onrender.com
+#@host = https://question-answer-proxy.onrender.com
 
-@base_path = /api/questions
+@base_path = /api/v1/question-answers
 
 ### ============================================================
-### 1. HEALTH - Проверка работоспособности сервиса
+### 1. LISTS - Получение списков
 ### ============================================================
 
-### 01. Проверить статус сервиса (health check)
-GET {{host}}{{base_path}}/health
+### 01. Получить все доступные списки (темы/категории)
+GET {{host}}{{base_path}}/lists
 Accept: application/json
 
-# Ожидаемый ответ: "OK"
+# Ожидаемый ответ: ["spring", "sql", "kafka", "architecture"]
 
 ### ============================================================
 ### 2. READ - Получение данных о вопросах
 ### ============================================================
 
-### 02. Получить общее количество вопросов
-GET {{host}}{{base_path}}/count
-Accept: application/json
-
-# Ожидаемый ответ: число (например, 993)
-
-### 03. Получить все вопросы с ответами (полный список)
-GET {{host}}{{base_path}}
+### 02. Получить все вопросы из указанного списка (с пагинацией)
+# Параметры:
+#   - list_name: название списка (обязательный)
+#   - page: номер страницы (начиная с 0)
+#   - size: количество элементов на странице
+#   - sort: поле для сортировки (questionId, question, answer)
+GET {{host}}{{base_path}}?list_name=spring&page=0&size=20&sort=questionId,asc
 Accept: application/json
 
 # Ожидаемый ответ: массив JSON с вопросами и ответами
 
-### 04. Получить все вопросы с ответами (с форматированием для удобства чтения)
-GET {{host}}{{base_path}}
+### 03. Получить все вопросы из списка (без пагинации, все 100 элементов)
+GET {{host}}{{base_path}}?list_name=spring&size=100
 Accept: application/json
+
+### 04. Получить все вопросы из списка с сортировкой по вопросу
+GET {{host}}{{base_path}}?list_name=spring&sort=question,asc
+Accept: application/json
+
+### 05. Получить конкретный вопрос по ID из указанного списка
+# Пример: GET /api/v1/question-answers/Q001?list_name=spring
+GET {{host}}{{base_path}}/Q001?list_name=spring
+Accept: application/json
+
+# Ожидаемый ответ: объект QuestionAnswer
+
+### 06. Получить общее количество вопросов в указанном списке
+GET {{host}}{{base_path}}/count?list_name=spring
+Accept: application/json
+
+# Ожидаемый ответ: число (например, 42)
 
 ### ============================================================
-### 3. CACHE - Управление кэшем
+### 3. HEALTH - Проверка работоспособности
 ### ============================================================
 
-### 05. Получить информацию о состоянии кэша
-GET {{host}}{{base_path}}/cache/status
+### 07. Проверить доступность указанного списка
+GET {{host}}{{base_path}}/health?list_name=spring
 Accept: application/json
 
-# Ожидаемый ответ:
-# {
-#   "cacheSize": 993,
-#   "currentVersion": 1,
-#   "remoteVersion": 1,
-#   "lastCheckTime": 1234567890,
-#   "ageMs": 60000,
-#   "isFresh": true,
-#   "lastUpdated": "2024-01-15",
-#   "totalRows": 993
-# }
+# Ожидаемый ответ: "OK"
 
-### 06. Принудительно обновить кэш (сбросить и перезагрузить данные)
-POST {{host}}{{base_path}}/cache/refresh
+### 08. Проверить доступность другого списка
+GET {{host}}{{base_path}}/health?list_name=sql
 Accept: application/json
-
-# Ожидаемый ответ: "Cache refreshed"
 
 ### ============================================================
 ### 4. ❌ ТЕСТЫ НА ОШИБКИ
 ### ============================================================
 
-### 07. ❌ ОШИБКА 404: Несуществующий эндпоинт
-GET {{host}}{{base_path}}/not-exists
+### 09. ❌ ОШИБКА 400: Отсутствует обязательный параметр list_name
+GET {{host}}{{base_path}}
 Accept: application/json
 
-### 08. ❌ ОШИБКА 500: Внутренняя ошибка сервера (если Google Sheets недоступен)
-# (Этот тест сработает только если Google Sheets API вернет ошибку)
+# Ожидаемый ответ: 400 Bad Request
+
+### 10. ❌ ОШИБКА 400: Пустой параметр list_name
+GET {{host}}{{base_path}}?list_name=
+Accept: application/json
+
+# Ожидаемый ответ: 400 Bad Request
+
+### 11. ❌ ОШИБКА 404: Несуществующий вопрос
+GET {{host}}{{base_path}}/Q999?list_name=spring
+Accept: application/json
+
+# Ожидаемый ответ: 404 Not Found
+
+### 12. ❌ ОШИБКА 404: Несуществующий список
+GET {{host}}{{base_path}}?list_name=unknown
+Accept: application/json
+
+# Ожидаемый ответ: 404 Not Found или пустой массив
+
+### 13. ❌ ОШИБКА 400: Некорректная пагинация
+GET {{host}}{{base_path}}?list_name=spring&page=-1&size=0
+Accept: application/json
+
+# Ожидаемый ответ: 400 Bad Request
+
+### 14. ❌ ОШИБКА 404: Несуществующий эндпоинт
+GET {{host}}{{base_path}}/not-exists
+Accept: application/json
 
 ### ============================================================
 ### 5. 📋 ПРИМЕРЫ ИСПОЛЬЗОВАНИЯ В КОДЕ
 ### ============================================================
 
-### Пример 1: Получить все вопросы для отображения в приложении
-# GET {{host}}{{base_path}}
+### Пример 1: Получить все вопросы из списка Spring
+# GET {{host}}{{base_path}}?list_name=spring
 
-### Пример 2: Проверить, обновились ли данные
-# GET {{host}}{{base_path}}/cache/status
+### Пример 2: Получить конкретный вопрос
+# GET {{host}}{{base_path}}/Q001?list_name=spring
 
-### Пример 3: Принудительно обновить данные (если вы добавили новые вопросы в таблицу)
-# POST {{host}}{{base_path}}/cache/refresh
+### Пример 3: Получить количество вопросов
+# GET {{host}}{{base_path}}/count?list_name=spring
+
+### Пример 4: Получить все доступные списки
+# GET {{host}}{{base_path}}/lists
+
+### Пример 5: Проверить доступность списка
+# GET {{host}}{{base_path}}/health?list_name=spring
 
 ### ============================================================
 ### 6. 🔄 ПЕРЕКЛЮЧЕНИЕ МЕЖДУ СРЕДАМИ
 ### ============================================================
 
 ### Для локального запуска:
-# 1. Раскомментируйте строку с @host = http://localhost:8080
-# 2. Закомментируйте строку с @host = https://question-answer-proxy.onrender.com
-
+# 1. Раскомментируйте строку с @ host = http://localhost:8080
+# 2. Закомментируйте строку с @ host = https://question-answer-proxy.onrender.com
+#
 ### Для работы с продакшен-версией:
-# 1. Раскомментируйте строку с @host = https://question-answer-proxy.onrender.com
-# 2. Закомментируйте строку с @host = http://localhost:8080
+# 1. Раскомментируйте строку с @ host = https://question-answer-proxy.onrender.com
+# 2. Закомментируйте строку с @ host = http://localhost:8080
+
+### ============================================================
+### 7. 🚀 БЫСТРЫЙ СТАРТ (скопируйте и вставьте в браузер)
+### ============================================================
+
+# Получить все вопросы из списка Spring (первые 20)
+# http://localhost:8080/api/v1/question-answers?list_name=spring
+
+# Получить вопрос Q001 из списка Spring
+# http://localhost:8080/api/v1/question-answers/Q001?list_name=spring
+
+# Получить количество вопросов в списке Spring
+# http://localhost:8080/api/v1/question-answers/count?list_name=spring
+
+# Получить все доступные списки
+# http://localhost:8080/api/v1/question-answers/lists
+
+# Проверить доступность списка Spring
+# http://localhost:8080/api/v1/question-answers/health?list_name=spring

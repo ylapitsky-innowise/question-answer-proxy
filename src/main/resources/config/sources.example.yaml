@@ -1,20 +1,51 @@
 # sources.example.yaml
 # Скопируйте этот файл в корневую папку config/ и переименуйте в sources.yaml
+# Содержит конфигурацию всех источников данных (списков вопросов)
+#
+# Структура:
+#   sources:
+#     <ключ-источника>:           # Уникальный идентификатор (используется в API)
+#       id: "уникальный-id"        # ID в системе (можно совпадать с ключом)
+#       spreadsheet-id: "..."      # ID Google Sheets таблицы
+#       range-name: "..."          # Имя диапазона в таблице
+#       table-name: "..."          # Имя для API запросов
+#       display-name: "..."        # Отображаемое имя для UI
+#       description: "..."         # Описание источника
+#       author-name: "..."         # Автор
+#       author-contact: "..."      # Контакт автора
+#       is-active: true            # Активен/деактивирован
+#       is-public: true            # Публичный/приватный
+#       priority: 1                # Приоритет для сортировки
+#       tags: [...]                # Теги для фильтрации
+#       topics: [...]              # Темы внутри источника
+#       question-count: 0          # Количество вопросов (обновляется автоматически)
 
-spring:
-  spreadsheet-id: "${SPRING_SHEET_ID}"    # можно через переменные
-  range: "spring_questions"
-  name: "Spring Framework"
-  description: "Все вопросы по Spring Core, Boot, Security"
-
-sql:
-  spreadsheet-id: "${SQL_SHEET_ID}"
-  range: "sql_questions"
-  name: "Базы данных SQL"
-  description: "Вопросы по SQL, индексам, транзакциям"
-
-kafka:
-  spreadsheet-id: "${KAFKA_SHEET_ID}"
-  range: "kafka_questions"
-  name: "Apache Kafka"
-  description: "Вопросы по Kafka, компонентам"
+sources:
+  spring:
+    id: "apache-kafka_questions_001"
+    spreadsheet-id: "1vAQCwrkBXj8D9416MboCCsWaAB7Ft6izd0VmBiGKdhw"          # или прямое значение: "1abc123..."
+    source-page-link: "https://docs.google.com/spreadsheets/d/1vAQCwrkBXj8D9416MboCCsWaAB7Ft6izd0VmBiGKdhw/edit?usp=sharing"
+    range-name: "Kafka_01"
+    table-name: "Kafka_v_001"
+    display-name: "Базовые вопросы по Kafka"
+    description: "Коллекция не сложных вопросов по теме 'Брокер Kafka'. Все вопросы не запредельного уровня сложности"
+    author-name: "Yury"
+    author-contact: "yury@example.com"
+    is-active: true
+    is-public: true
+    priority: 1
+    tags:
+      - "spring"
+      - "kafka"
+      - "microservices-architecture"
+      - "messaging"
+      - "event-driven"
+    topics:
+      - "kafka"
+      - "Producer"
+      - "Consumer"
+      - "Partitions"
+      - "Rebalancing"
+      - "Delivery Semantics"
+      - "Kafka Connect"
+    question-count: 29
