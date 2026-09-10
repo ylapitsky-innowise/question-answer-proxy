@@ -12,6 +12,14 @@ server:
 
 
 # ============================================
+# Sources Configuration (внешний конфиг)
+# ============================================
+sources:
+  config-path: ./config/sources.yaml    # ← путь к реальному конфигу (НЕ в репозитории)
+  config-example-path: ./config/sources.example.yaml  # ← путь к примеру (в репозитории)
+
+
+# ============================================
 # Google Sheets Configuration
 # ============================================
 google:
