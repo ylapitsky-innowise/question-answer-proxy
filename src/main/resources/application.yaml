@@ -15,8 +15,8 @@ server:
 # Sources Configuration (внешний конфиг)
 # ============================================
 sources:
-  config-path: ./config/sources.yaml    # ← путь к реальному конфигу (НЕ в репозитории)
-  config-example-path: ./config/sources.example.yaml  # ← путь к примеру (в репозитории)
+  config-path: ${SOURCES_CONFIG_PATH:./config/sources.yaml}    # ← путь к реальному конфигу (НЕ в репозитории)
+  config-example-path: ${SOURCES_EXAMPLE_PATH:./config/sources.example.yaml}  # ← путь к примеру (в репозитории)
 
 
 # ============================================
