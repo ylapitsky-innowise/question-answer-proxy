@@ -1,9 +1,11 @@
+# .gitignore  (в корне)
+
 # IDE
 .idea/
 *.iml
 *.iws
 *.ipr
-.mvn/
+#.mvn/
 .vscode/
 
 # Build

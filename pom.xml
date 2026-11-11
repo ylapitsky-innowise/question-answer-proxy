@@ -147,6 +147,34 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- ========================================================== -->
+        <!--                   CACHING                                  -->
+        <!-- ========================================================== -->
+
+        <!-- Spring Cache abstraction (аннотации @Cacheable, @EnableCaching) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
+        </dependency>
+
+        <!-- Caffeine — in-memory кэш с автоматическим вытеснением.
+             Версия управляется Spring Boot BOM, указывать вручную не нужно. -->
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+        </dependency>
+
+
+        <!-- ========================================================== -->
+        <!--                   Actuator                                 -->
+        <!-- ========================================================== -->
+
+        <!-- Добавляю Actuator (даст /actuator/health для Render health-check)-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
 	</dependencies>
 
 	<build>

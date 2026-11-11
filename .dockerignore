@@ -1,0 +1,8 @@
+# .dockerignore  (в корне)
+.env
+.env.*
+!.env.example
+config/sources.yaml
+.idea/
+target/
+*.log

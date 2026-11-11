@@ -6,9 +6,25 @@
 spring:
   application:
     name: question-answer-proxy
+  cache:
+    type: caffeine
+    caffeine:
+      # maximumSize — потолок числа закэшированных списков (у вас их немного).
+      # expireAfterWrite — TTL: через 15 минут при следующем запросе
+      # произойдёт ленивая синхронизация с Google Sheets.
+      spec: maximumSize=20,expireAfterWrite=15m
 
 server:
   port: ${PORT:8080}
+  tomcat:
+    threads:
+      max: 20
+      min-spare: 2
+  compression:
+    # Gzip: превращает тяжёлые JSON-ответы в ~1/5 от исходного размера.
+    enabled: true
+    min-response-size: 1024
+    mime-types: application/json,text/plain,text/csv
 
 
 # ============================================
@@ -62,3 +78,4 @@ management:
   endpoint:
     health:
       show-details: always
+#      show-details: when-authorized

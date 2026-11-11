@@ -2,10 +2,12 @@ package com.innowise.qaproxy;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 
 import java.io.File;
 
 @SpringBootApplication
+@EnableCaching   // ← включить Spring Cache
 public class QuestionAnswerProxyApplication {
 
 	public static void main(String[] args) {
