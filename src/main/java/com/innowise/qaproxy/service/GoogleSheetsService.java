@@ -1,6 +1,5 @@
 package com.innowise.qaproxy.service;
 
-import com.innowise.qaproxy.model.QuestionAnswer;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;

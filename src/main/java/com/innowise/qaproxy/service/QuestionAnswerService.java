@@ -1,11 +1,9 @@
 package com.innowise.qaproxy.service;
 
 import com.innowise.qaproxy.config.SourceConfigLoader;
-import com.innowise.qaproxy.model.Question;
 import com.innowise.qaproxy.model.SourceConfig;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;

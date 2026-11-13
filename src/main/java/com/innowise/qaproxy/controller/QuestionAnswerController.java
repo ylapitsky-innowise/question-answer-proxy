@@ -1,6 +1,5 @@
 package com.innowise.qaproxy.controller;
 
-import com.innowise.qaproxy.model.QuestionAnswer;
 import com.innowise.qaproxy.service.GoogleSheetsService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
